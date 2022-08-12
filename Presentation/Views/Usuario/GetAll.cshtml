@@ -1,0 +1,70 @@
+﻿@model Modelos.Usuario
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>USUARIOS</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Seleccione un Usario para editarlo o (+) para agregar uno nuevo</h5>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    @using(Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Usuarios)
+        </div>
+        <div class="col-md-3" style="margin-top:4px">
+            <input type="submit" value="Buscar" class="btn btn-info" />
+        </div>
+
+    }
+</div>
+
+<br />
+<br />
+
+<div style="float:left;">
+    @Html.ActionLink("+", "Form", "Usuario", htmlAttributes: new { @class = "btn btn-success" })
+</div>
+<br />
+<br />
+
+<table id="example" class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <td><center><b> Editar </b></center></td>
+            <td class="hidden"><center><b>IdUsuario</b></center></td>
+            <td><center><b>Nombre</b></center></td>
+            <td><center><b>Apellido Paterno</b></center></td>
+            <td><center><b>Apellido Materno</b></center></td>
+            <td><center><b>Edad</b></center></td>
+            <td><center><b>Fecha de Nacimiento</b></center></td>
+            <td><center><b>Eliminar</b></center></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Modelos.Usuario usuario in Model.Usuarios)
+        {
+            <tr>
+                <td><center> <a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario })"></a></center></td>
+                <td class="hidden"><center>IdUsuario </center></td>
+                <td><center>@usuario.Nombre</center></td>
+                <td><center>@usuario.ApellidoPaterno</center></td>
+                <td><center>@usuario.ApellidoMaterno</center></td>
+                <td><center>@usuario.Edad</center></td>
+                <td><center>@usuario.FechaNacimiento</center></td>
+                <td> <center><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })" onclick="return confirm('¿Seguro que deseas eliminar este registro?');"></a></center></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
